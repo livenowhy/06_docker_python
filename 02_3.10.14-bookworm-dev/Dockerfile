@@ -30,3 +30,5 @@ WORKDIR /share
 RUN echo '/share' >> /usr/local/lib/python3.10/site-packages/my.pth
 ADD run-server.sh    /share/run-server.sh
 CMD ["/share/run-server.sh"]
+
+# crpi-8kvyt6flnal17nk5.cn-beijing.personal.cr.aliyuncs.com/liveno/python:3.10.14-bookworm-dev

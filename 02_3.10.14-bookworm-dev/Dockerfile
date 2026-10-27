@@ -16,10 +16,10 @@ apt-get install -y --no-install-recommends build-essential              && \
 apt-get install -y --no-install-recommends vim                          && \
 apt-get install -y --no-install-recommends npm                          && \
 apt-get install -y --no-install-recommends openssh-server
-
-RUN pip install --upgrade setuptools pip
+# RUN rm -rf /var/lib/apt/lists/*
 
 # 1. supervisor 管理服务
+RUN pip install --upgrade setuptools pip
 RUN pip3 install supervisor
 RUN echo_supervisord_conf > /etc/supervisord.conf
 RUN echo '[include]' >> /etc/supervisord.conf && echo 'files = /etc/supervisord.d/*.ini' >> /etc/supervisord.conf
@@ -42,9 +42,6 @@ ADD run-server.sh    /share/run-server.sh
 CMD ["/share/run-server.sh"]
 
 # crpi-8kvyt6flnal17nk5.cn-beijing.personal.cr.aliyuncs.com/liveno/python:3.10.14-bookworm-dev
-
-# RUN apt-get autoremove -y --purge build-essential
-# RUN rm -rf /var/lib/apt/lists/*
 
 # service ssh restart
 # passwd root

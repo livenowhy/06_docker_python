@@ -25,10 +25,27 @@ RUN echo_supervisord_conf > /etc/supervisord.conf
 RUN echo '[include]' >> /etc/supervisord.conf && echo 'files = /etc/supervisord.d/*.ini' >> /etc/supervisord.conf
 RUN mkdir /etc/supervisord.d/ && mkdir /var/log/supervisor/
 
-# 2. 设置运行路径
+# 2. 后期 ssh 登陆
+RUN mkdir -p /root/.ssh/
+RUN echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+RUN echo "AuthorizedKeysFile .ssh/authorized_keys" >> /etc/ssh/sshd_config
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+# 3. EXPOSE 暴露端口
+EXPOSE 22 80 3306
+EXPOSE 8000-8100
+
+# 4. 设置运行路径
 WORKDIR /share
 RUN echo '/share' >> /usr/local/lib/python3.10/site-packages/my.pth
 ADD run-server.sh    /share/run-server.sh
 CMD ["/share/run-server.sh"]
 
 # crpi-8kvyt6flnal17nk5.cn-beijing.personal.cr.aliyuncs.com/liveno/python:3.10.14-bookworm-dev
+
+# RUN apt-get autoremove -y --purge build-essential
+# RUN rm -rf /var/lib/apt/lists/*
+
+# service ssh restart
+# passwd root
+# notes: 该镜像是公开镜像-不得存放任何敏感信息
